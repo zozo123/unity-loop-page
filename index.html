@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>unity-loop · vibe-coded Unity on islo.dev sandboxes</title>
+  <meta name="description" content="Claude tournaments a Unity WebGL scene across parallel islo.dev sandboxes. K variants per round, vision judge scores, winner promoted.">
+  <meta property="og:title" content="unity-loop — Unity-on-islo Claude tournament">
+  <meta property="og:description" content="K parallel islo.dev sandboxes render Unity WebGL variants. Claude judges. Winner is iframed live.">
+  <meta property="og:url" content="https://zozo123.github.io/unity-loop-page/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="title">
+      <span class="lead">unity-loop</span>
+      <span class="sub">vibe-coded Unity on <b>islo.dev</b> sandboxes — Claude-vision tournament</span>
+    </div>
+    <nav>
+      <a href="https://github.com/zozo123/unity-loop" target="_blank">GitHub</a>
+      <a href="https://github.com/zozo123/unity-loop/blob/main/docs/POST.md" target="_blank">Writeup</a>
+      <a href="https://github.com/zozo123/pokeloop" target="_blank">pokeloop</a>
+      <a href="https://github.com/zozo123/meta-harness-on-islo" target="_blank">meta-harness</a>
+    </nav>
+  </header>
+
+  <section class="stage">
+    <div class="frame" id="stage-frame">
+      <iframe id="stage-iframe" src="about:blank" allow="autoplay; fullscreen"
+              referrerpolicy="no-referrer"></iframe>
+    </div>
+    <aside class="readout">
+      <div class="metric">
+        <div class="label">champion score</div>
+        <div class="value" id="champion-score">—</div>
+        <div class="label">/ 5.0</div>
+      </div>
+      <div class="metric">
+        <div class="label">title</div>
+        <div class="value-sm" id="champion-title">—</div>
+      </div>
+      <div class="metric">
+        <div class="label">run</div>
+        <div class="value-sm mono" id="champion-run">—</div>
+      </div>
+      <div class="metric">
+        <div class="label">share url</div>
+        <div class="value-sm mono"><a id="champion-url" href="#" target="_blank">—</a></div>
+      </div>
+      <div class="metric">
+        <div class="label">trajectory</div>
+        <div class="bars" id="bars"></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="explain">
+    <h2>what this is</h2>
+    <p>K parallel <a href="https://islo.dev" target="_blank">islo.dev</a> sandboxes each serve the same fixed Unity WebGL build (<a href="https://github.com/MirzaBeig/Lightning-VFX-WebGL" target="_blank">Lightning VFX</a>) wrapped in different CSS chrome. <a href="https://www.anthropic.com" target="_blank">Claude</a> screenshots each, scores against a target prompt (<code>synthwave</code>, <code>ominous</code>, <code>calm</code>), and the winner is promoted to the iframe above. Trajectory <b>1.2 → 4.8</b> in six rounds.</p>
+
+    <h2>pattern</h2>
+    <pre><code>for step in range(steps):
+    variants = [proposer(target, history) for _ in range(K)]   # Claude proposes
+    urls     = [islo_spawn(v) for v in variants]               # K islo sandboxes
+    scored   = [(v, judge(url, target)) for v, url in zip(...)] # Claude judges
+    winner   = max(scored, key=score)
+    promote(winner)                                            # → champion.json
+    history.append(winner)</code></pre>
+
+    <h2>headers (the part that breaks Unity hosts)</h2>
+    <pre><code>content-type: application/wasm
+content-encoding: gzip
+cross-origin-opener-policy: same-origin
+cross-origin-embedder-policy: require-corp
+cross-origin-resource-policy: cross-origin</code></pre>
+    <p class="dim">Unity 2020 <code>.unityweb</code> is pre-gzipped — the server must say <code>Content-Encoding: gzip</code> or the loader fails. The islo gateway passes through both the encoding header and the body intact in streaming mode (verified end-to-end: 7MB <code>.wasm.unityweb</code> in 2.4s, HTTP/2).</p>
+
+    <h2>why islo.dev</h2>
+    <p>The only differentiator that matters: <b>cheap parallel cold workers</b>. K=8 × 6 rounds = 48 sandbox-runs. <code>islo use foo --source github://… -- bash -c '…'</code> + <code>islo share foo 8080</code> is a one-liner per variant. Locally you'd be fighting ports and state.</p>
+
+    <h2>not</h2>
+    <p>This is not a Unity Editor pipeline. The wasm doesn't change between rounds. Real Unity rebuilds need <code>unityci/editor:webgl</code> (~10GB) and a license dance. That's the Tier 3 follow-on in <a href="https://github.com/zozo123/unity-loop/blob/main/docs/POST.md#tier-3-real-unity-editor-rebuilds">POST.md</a>.</p>
+
+    <h2>credits</h2>
+    <ul>
+      <li>Unity scene — <a href="https://github.com/MirzaBeig/Lightning-VFX-WebGL" target="_blank">@MirzaBeig</a></li>
+      <li>Sandbox infra — <a href="https://islo.dev" target="_blank">islo.dev</a></li>
+      <li>Pattern — <a href="https://github.com/zozo123/pokeloop" target="_blank">pokeloop</a> + <a href="https://github.com/zozo123/meta-harness-on-islo" target="_blank">meta-harness-on-islo</a></li>
+      <li>Movie — <a href="https://github.com/islo-labs/agentreel" target="_blank">agentreel</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>unity-loop · <a href="https://github.com/zozo123/unity-loop">github</a> · MIT</span>
+  </footer>
+
+  <script src="champion.js"></script>
+</body>
+</html>

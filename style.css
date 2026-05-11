@@ -1,0 +1,147 @@
+:root {
+  --bg: #06002a;
+  --bg2: #0c0540;
+  --panel: #100838;
+  --ink: #e5dbff;
+  --dim: #7a6db0;
+  --accent: #ff006e;
+  --accent2: #3a86ff;
+  --accent3: #8338ec;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body {
+  font-family: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+  line-height: 1.55;
+  background: radial-gradient(ellipse at 20% 0%, var(--accent3) 0%, transparent 45%),
+              radial-gradient(ellipse at 90% 100%, var(--accent2) 0%, transparent 50%),
+              linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+a { color: var(--ink); text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); }
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+code, pre { font-family: inherit; }
+pre {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 14px 18px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 2px; font-size: 0.9em; }
+pre code { background: transparent; padding: 0; }
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 22px 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+header .lead {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+header .sub {
+  display: block;
+  font-size: 12px;
+  color: var(--dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+header .sub b { color: var(--ink); }
+header nav { display: flex; gap: 18px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  padding: 28px 36px;
+  align-items: stretch;
+}
+.stage .frame {
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.45);
+  box-shadow: 0 0 60px rgba(255, 0, 110, 0.35), 0 0 120px rgba(58, 134, 255, 0.18);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 320px;
+}
+.stage iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.readout { display: flex; flex-direction: column; gap: 14px; }
+.metric {
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+.metric .label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.metric .value { font-size: 40px; font-weight: 800; color: var(--accent); line-height: 1.1; }
+.metric .value-sm { font-size: 14px; color: var(--ink); margin-top: 4px; word-break: break-all; }
+.metric .mono { font-family: ui-monospace, Menlo, monospace; }
+
+.bars { display: flex; gap: 4px; margin-top: 8px; align-items: flex-end; height: 60px; }
+.bars .bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--accent), var(--accent3));
+  border-radius: 2px 2px 0 0;
+  min-height: 4px;
+  transition: height 0.4s;
+  position: relative;
+}
+.bars .bar::after {
+  content: attr(data-score);
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--dim);
+}
+
+.explain {
+  padding: 32px 36px 60px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.explain h2 {
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 32px 0 12px;
+}
+.explain p { font-size: 14px; color: var(--ink); }
+.explain p.dim { color: var(--dim); }
+.explain ul { font-size: 14px; padding-left: 22px; }
+.explain ul li { margin-bottom: 4px; }
+
+footer {
+  padding: 24px 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; }
+  header { padding: 18px 20px; }
+  .stage, .explain { padding-left: 20px; padding-right: 20px; }
+}
