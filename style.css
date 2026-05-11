@@ -59,6 +59,36 @@ header .sub {
 header .sub b { color: var(--ink); }
 header nav { display: flex; gap: 18px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
 
+.movie {
+  padding: 28px 36px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.movie-frame {
+  width: min(720px, 90vw);
+  aspect-ratio: 1 / 1;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 80px rgba(255, 0, 110, 0.4), 0 0 160px rgba(58, 134, 255, 0.18);
+}
+.movie-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.movie-caption {
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
 .stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;

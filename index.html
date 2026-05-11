@@ -8,6 +8,16 @@
   <meta property="og:title" content="unity-loop — Unity-on-islo Claude tournament">
   <meta property="og:description" content="K parallel islo.dev sandboxes render Unity WebGL variants. Claude judges. Winner is iframed live.">
   <meta property="og:url" content="https://zozo123.github.io/unity-loop-page/">
+  <meta property="og:type" content="video.other">
+  <meta property="og:image" content="https://zozo123.github.io/unity-loop-page/assets/poster.jpg">
+  <meta property="og:video" content="https://zozo123.github.io/unity-loop-page/assets/unity-loop.mp4">
+  <meta property="og:video:type" content="video/mp4">
+  <meta property="og:video:width" content="1080">
+  <meta property="og:video:height" content="1080">
+  <meta name="twitter:card" content="player">
+  <meta name="twitter:player:stream" content="https://zozo123.github.io/unity-loop-page/assets/unity-loop.mp4">
+  <meta name="twitter:player:stream:content_type" content="video/mp4">
+  <meta name="twitter:image" content="https://zozo123.github.io/unity-loop-page/assets/poster.jpg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,6 +33,16 @@
       <a href="https://github.com/zozo123/meta-harness-on-islo" target="_blank">meta-harness</a>
     </nav>
   </header>
+
+  <section class="movie">
+    <div class="movie-frame">
+      <video controls preload="metadata" poster="assets/poster.jpg" playsinline>
+        <source src="assets/unity-loop.mp4" type="video/mp4">
+        Your browser doesn't support HTML5 video. <a href="assets/unity-loop.mp4">Download the mp4</a>.
+      </video>
+    </div>
+    <p class="movie-caption">launch reel · 1080×1080 · <a href="assets/unity-loop.mp4">download mp4</a> · rendered by <a href="https://github.com/islo-labs/agentreel" target="_blank">agentreel</a></p>
+  </section>
 
   <section class="stage">
     <div class="frame" id="stage-frame">
